@@ -16,11 +16,19 @@ import './css/app.css'
 import MintUI from 'mint-ui'
 
 // 这里可以省略 node_modules 这一层目录
-import 'mint-ui/lib/style.css'
+// import 'mint-ui/lib/style.css'
 
 // 安装 Mint-UI 到 vue 中
 // 把所有的组件注册为全局组件，随时可以用，哪里都可以用
-Vue.use(MintUI);
+// Vue.use(MintUI);
+
+// 按需导入 Mint-UI 组件
+import { Button } from 'mint-ui'
+
+// 使用 Vue.component 注册组件，使用的时候，直接用组件名 mybtn 标签模式导入即可<mybtn>8888</mybtn>
+// Vue.component('mybtn',Button);
+
+Vue.component(Button.name,Button);
 
 
 // 导入 app 组件，这里要注意路径的问题

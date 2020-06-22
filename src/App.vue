@@ -16,6 +16,8 @@
         <br />
         <mt-button type="danger" size="normal" icon="more">点击更多</mt-button>
 
+<!--        <mybtn>我还是太天真了</mybtn>-->
+
         <router-link to="/account">Account</router-link>
         <router-link to="/goodslist">Goodslist</router-link>
         <router-view></router-view>

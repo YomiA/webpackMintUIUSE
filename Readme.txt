@@ -1,32 +1,40 @@
-1. Mint UI 和 Bootstrap 的区别：
-Mint UI 是基于 vue.js 封装出来的组件库
-Bootstrap 不是组件库，是一种类似于代码片段的东西
+1. 对于MintUI, 之前我们是用的是全部导入，所以会使得 bundle.js 体积很大，所以我们应该最好用按需导入比较好，就是需要什么就导入什么
+   用按需导入的时候，首先要先安装 babel-plugin-component 这个插件,用 cnpm 安装，用 npm 安装会出错
+   用 cnpm install babel-plugin-component -D 安装这个插件，安装完成之后还要去 .babelrc 里面配置下
+   就是在plugins:[]里面添加
+   ["component", [
+                        {
+                          "libraryName": "mint-ui",
+                          "style": true
+                        }
+                      ]]
 
-2. Mint UI的安装：
-# Vue 1.x
-npm install mint-ui@1 -S
-# Vue 2.0
-npm install mint-ui -S
+2. 添加完成之后，如果要引入的话，那就在 main.js 界面引入所需要的组件
+   比如你要按需导入 Button 和 Cell 那么就要在 main.js 中写入下面这些
+   import Vue from 'vue'
+   import { Button, Cell } from 'mint-ui'
+   import App from './App.vue'
 
-3. 导入Mint UI组件：
-   3.1 引入全部组件
-   import Vue from 'vue';
-   import Mint from 'mint-ui';
-   Vue.use(Mint);// 将 MintUI 注册到 vue 上
-   3.2 按需引入部分组件
-   import { Cell, Checklist } from 'mint-ui';
-   Vue.component(Cell.name, Cell);
-   Vue.component(Checklist.name, Checklist);
+   Vue.component(Button.name, Button)
+   Vue.component(Cell.name, Cell)
+   /* 或写为
+    * Vue.use(Button)
+    * Vue.use(Cell)
+    */
 
-4. 因为在 main.js 中导入了全部组件[import Vue from 'vue';], 又因为把所有组件注册为全局组件[Vue.use(Mint);]
-   所以在其他组件中使用 MintUI 里面的 css component 的组件部分，可以不用导入组件，就可以直接使用了。
-   因为 css component 里面的组件是直接用 标签形式显示的，如<mt-button></mt-button>
-   但是，如果是要使用 MintUI 里面的 js component 的部分组件，那就要重新 按需导入自己需要的 组件了。
-   这个 js component 里面的就不是用标签形式来显示的，而是一些事件或者是一些方法，所以要在当前页面重新按需导入
-   比如导入Toast事件：import { Toast } from 'mint-ui';
+    其中 Vue.component(Button.name, Button) 相当于之前的
+    var login = {
+        template:'<h1>上车的人请买票，买了票的请下车</h1>'
+    }
+    注册组件：
+    Vue.component('login_cart',login)[ login_cart 自定义组件名称]
 
-5. 由于我安装了bootstrap，但是图标还是不显示，所以我下载了低版本的bootstrap3.3.7版本，在bootstrap里面才会
-   出现fonts文件夹，图标才会出现
+3.这里面有几个问题要注意：
 
-6. 要求：进入一个页面，这个页面正在请求后台数据，这时候在页面应该显示一个 loading 效果，正在加载中。。。
-   当数据获取回来后，loading 图片消失，我们可以用 Toast 的 duration 等于 -1 来模拟情况
+  3-1:就是 .babelrc 这个配置文件里面的 plugins 会报错plugins[0][1] must be an object, false, or undefined
+  原因就是 plugins 里面不能再使用数组作为参数,所以要把 component 后面的中括号 去掉一个。
+  详情见https://blog.csdn.net/qq_38402659/article/details/100163936
+
+  3-2:就是 babel 版本改成7.0.0以后，安装插件的时候 都要再 babel 的前面加个 @ 并且7.0版本和之前的6.0版本是不匹配的，
+  所以如果是7.0和6.0版本混合一起用，运行的时候就会报错，所以要么把全部版本改成7.0以上，要么就是全部降到6.0版本，这样才会
+  匹配。详情见https://blog.csdn.net/weixin_42235173/article/details/90897014
