@@ -29,7 +29,7 @@
     注册组件：
     Vue.component('login_cart',login)[ login_cart 自定义组件名称]
 
-3.这里面有几个问题要注意：
+3.这里面有几个问题要注意：()
 
   3-1:就是 .babelrc 这个配置文件里面的 plugins 会报错plugins[0][1] must be an object, false, or undefined
   原因就是 plugins 里面不能再使用数组作为参数,所以要把 component 后面的中括号 去掉一个。
